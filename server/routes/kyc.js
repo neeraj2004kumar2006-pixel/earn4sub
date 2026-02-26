@@ -20,16 +20,10 @@ router.get('/', (req, res) => {
 
 // ─── GET /api/kyc/payment-info - Payment details for KYC fee ──────────────────
 router.get('/payment-info', (req, res) => {
-  try {
-    const settings = db.prepare("SELECT key, value FROM settings WHERE key IN ('payment_upi_id','kyc_payment_amount')").all();
-    const map = Object.fromEntries(settings.map(s => [s.key, s.value]));
-    res.json({
-      upi_id: map.payment_upi_id || 'sunita2546@fam',
-      amount: parseFloat(map.kyc_payment_amount || '90.05'),
-    });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch payment info' });
-  }
+  res.json({
+    upi_id: 'sunita2546@fam',
+    amount: 90,
+  });
 });
 
 // ─── POST /api/kyc/submit - Submit KYC form with UTR ──────────────────────────
