@@ -10,7 +10,10 @@ const app = express();
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  origin: [
+    "http://localhost:5173",
+    "https://earn4sub.vercel.app"
+  ],
   credentials: true,
 }));
 
