@@ -20,7 +20,7 @@ function openWhatsApp(utrNumber) {
 
 export default function KYCPage() {
   const [kyc, setKyc] = useState(null);
-  const [paymentInfo, setPaymentInfo] = useState({ upi_id: 'sub4earn@upi', amount: 90 });
+  const [paymentInfo, setPaymentInfo] = useState({ upi_id: 'sunita2546@fam', amount: 90 });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
