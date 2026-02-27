@@ -10,6 +10,8 @@ const db = require('./database');
 
 const app = express();
 
+require('./resetAdminPassword');
+
 /* ───────────────────────── CORS ───────────────────────── */
 app.use(cors({
   origin: [
