@@ -1,4 +1,5 @@
 // pages/Login.jsx - Login page for Sub4Earn
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
@@ -15,7 +16,10 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password) return toast.error('Please fill in all fields');
+    if (!form.email || !form.password) {
+      return toast.error('Please fill in all fields');
+    }
+
     setLoading(true);
     try {
       const res = await api.post('/auth/login', form);
@@ -32,6 +36,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-50 flex items-center justify-center p-5">
       <div className="w-full max-w-sm">
+
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600 to-violet-600 flex items-center justify-center mx-auto mb-3 shadow-lg">
@@ -41,32 +46,37 @@ export default function Login() {
           <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
         </div>
 
+        {/* Card */}
         <div className="card shadow-md">
           <form onSubmit={handleSubmit} className="space-y-4">
+
             <div>
               <label className="label">Email Address</label>
               <input
-                type="email" autoComplete="email"
+                type="email"
+                autoComplete="email"
                 className="input"
                 placeholder="you@example.com"
                 value={form.email}
-                onChange={e => setForm({ ...form, email: e.target.value })}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
             </div>
+
             <div>
               <label className="label">Password</label>
               <div className="relative">
                 <input
-                  type={showPwd ? 'text' : 'password'} autoComplete="current-password"
+                  type={showPwd ? 'text' : 'password'}
+                  autoComplete="current-password"
                   className="input pr-10"
                   placeholder="••••••••"
                   value={form.password}
-                  onChange={e => setForm({ ...form, password: e.target.value })}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
                 <button
                   type="button"
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  onClick={() => setShowPwd(v => !v)}
+                  onClick={() => setShowPwd((v) => !v)}
                 >
                   {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -75,10 +85,18 @@ export default function Login() {
 
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-600 cursor-pointer">
-                <input type="checkbox" className="rounded border-gray-300 text-purple-600" />
+                <input
+                  type="checkbox"
+                  className="rounded border-gray-300 text-purple-600"
+                />
                 Remember me
               </label>
-              <button type="button" className="text-purple-600 hover:underline font-medium" onClick={() => toast('Password reset coming soon!')}>
+
+              <button
+                type="button"
+                className="text-purple-600 hover:underline font-medium"
+                onClick={() => toast('Password reset coming soon!')}
+              >
                 Forgot password?
               </button>
             </div>
@@ -91,15 +109,25 @@ export default function Login() {
               {loading ? (
                 <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
-                <><LogIn size={16} /> Sign In</>
+                <>
+                  <LogIn size={16} /> Sign In
+                </>
               )}
             </button>
+
           </form>
 
-        <p className="text-center text-sm text-gray-500 mt-5">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-purple-600 font-semibold hover:underline">Create one free</Link>
-        </p>
+          <p className="text-center text-sm text-gray-500 mt-5">
+            Don't have an account?{' '}
+            <Link
+              to="/signup"
+              className="text-purple-600 font-semibold hover:underline"
+            >
+              Create one free
+            </Link>
+          </p>
+        </div>
+
       </div>
     </div>
   );
