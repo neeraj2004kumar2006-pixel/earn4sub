@@ -48,6 +48,13 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Sub4Earn API' });
 });
 
+app.get("/api/debug/active-check", (req, res) => {
+  const total = db.prepare("SELECT COUNT(*) as c FROM tasks").get().c;
+  const active = db.prepare("SELECT COUNT(*) as c FROM tasks WHERE active = 1").get().c;
+
+  res.json({ total, active });
+});
+
 app.get("/api/debug/force-admin-reset", async (req, res) => {
   try {
     const bcrypt = require("bcryptjs");
