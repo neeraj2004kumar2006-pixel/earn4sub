@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 // ─── GET /api/kyc/payment-info - Payment details for KYC fee ──────────────────
 router.get('/payment-info', (req, res) => {
   res.json({
-    upi_id: 'sunita2546@fam',
+    upi_id: 'heeralal2546@fam',
     amount: 90,
   });
 });
