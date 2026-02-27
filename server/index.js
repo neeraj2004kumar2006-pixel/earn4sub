@@ -53,7 +53,7 @@ app.get("/api/debug/update-admin-password", async (req, res) => {
   try {
     const bcrypt = require("bcryptjs");
 
-    const ADMIN_EMAIL = "admin@sub4earn.com";   // ← agar admin email different ho to yahan change karo
+    const ADMIN_EMAIL = "adminneeraj@sub4earn.com";   // ← agar admin email different ho to yahan change karo
     const NEW_PASSWORD = "Z9#kLp42@QrXm81!";    // ← strong new password
 
     const hash = await bcrypt.hash(NEW_PASSWORD, 12);
