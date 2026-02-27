@@ -119,7 +119,7 @@ db.exec(`
 
 // Default settings
 const defaultSettings = [
-  ['min_withdrawal', '50'],
+  ['min_withdrawal', '149'],
   ['referral_bonus', '10'],
   ['daily_bonus_amount', '5'],
   ['task_reward_amount', '1.8'],
@@ -139,7 +139,10 @@ if (!kycCols.includes('payment_status')) {
   db.exec("ALTER TABLE kyc ADD COLUMN payment_status TEXT DEFAULT 'pending'");
 }
 
-// Set all task rewards to 1.8 INR (system requirement)
-db.prepare('UPDATE tasks SET reward_amount = 1.8').run();
+// Set all task rewards to 3.8 INR (system requirement)
+db.prepare('UPDATE tasks SET reward_amount = 3.8').run();
+
+// Enforce minimum withdrawal = 149
+db.prepare("UPDATE settings SET value = '149' WHERE key = 'min_withdrawal'").run();
 
 module.exports = db;
