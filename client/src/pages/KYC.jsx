@@ -10,10 +10,11 @@ import StatusBadge from '../components/StatusBadge';
 
 const API_BASE = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
 
-// WhatsApp redirect helper
-function openWhatsApp(utrNumber) {
-  const phone = '917740892754'; // +91 country code
-  const message = `This is my KYC payment.\nUTR Number: ${utrNumber}`;
+// WhatsApp redirect helper — includes user's registered email
+function openWhatsApp(utrNumber, userEmail) {
+  const phone = '918306029070'; // +91 8306029070
+  const message =
+    `Hello Admin,\nI have completed my KYC payment.\n\nRegistered Email: ${userEmail}\nUTR Number: ${utrNumber}\n\nPlease verify my payment.`;
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
 }
