@@ -44,6 +44,22 @@ app.use('/api/admin',    require('./routes/admin'));
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({ status: 'ok', app: 'Sub4Earn API' }));
+app.get("/api/debug/reseed-tasks", async (req, res) => {
+  try {
+    const seed = require("./seed");
+
+    db.prepare("DELETE FROM tasks").run();
+
+    await seed();
+
+    const total = db.prepare("SELECT COUNT(*) as count FROM tasks").get();
+
+    res.json({ success: true, total });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Reseed failed" });
+  }
+});
 app.get("/api/debug/tasks-count", (req, res) => {
   const result = db.prepare("SELECT COUNT(*) as count FROM tasks").get();
   res.json(result);
