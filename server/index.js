@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { startAutoApprovalJob } = require('./jobs/autoApprove');
+const db = require('./database');
 
 const app = express();
 
@@ -43,6 +44,10 @@ app.use('/api/admin',    require('./routes/admin'));
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => res.json({ status: 'ok', app: 'Sub4Earn API' }));
+app.get("/api/debug/tasks-count", (req, res) => {
+  const result = db.prepare("SELECT COUNT(*) as count FROM tasks").get();
+  res.json(result);
+});
 
 // ─── Multer error handler ─────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
