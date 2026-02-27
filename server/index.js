@@ -192,5 +192,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Sub4Earn API running on http://localhost:${PORT}`);
   console.log(`Health: http://localhost:${PORT}/api/health`);
-  startAutoApprovalJob();
+  const { startAutoApprovalJob } = require("./jobs/autoApprove");
+startAutoApprovalJob();
 });
