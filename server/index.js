@@ -48,16 +48,19 @@ app.get("/api/debug/reseed-tasks", async (req, res) => {
   try {
     const seed = require("./seed");
 
+    // clear table
     db.prepare("DELETE FROM tasks").run();
 
+    // run seeding
     await seed();
 
     const total = db.prepare("SELECT COUNT(*) as count FROM tasks").get();
 
-    res.json({ success: true, total });
+    res.json({ success: true, total: total.count });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Reseed failed" });
+    console.error("Reseed error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 app.get("/api/debug/tasks-count", (req, res) => {
