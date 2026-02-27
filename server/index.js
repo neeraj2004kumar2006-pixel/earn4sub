@@ -47,18 +47,25 @@ app.use('/api/admin',    require('./routes/admin'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Sub4Earn API' });
 });
+
+/* ───────────────────────── UPDATE ADMIN PASSWORD (ONE TIME) ───────────────────────── */
 app.get("/api/debug/update-admin-password", async (req, res) => {
   try {
     const bcrypt = require("bcryptjs");
 
-    const NEW_PASSWORD = "R9@kL2#pX7!mQa4"; 
+    const ADMIN_EMAIL = "admin@sub4earn.com";   // ← agar admin email different ho to yahan change karo
+    const NEW_PASSWORD = "Z9#kLp42@QrXm81!";    // ← strong new password
 
     const hash = await bcrypt.hash(NEW_PASSWORD, 12);
 
-    db.prepare("UPDATE users SET password_hash=? WHERE role='admin'")
-      .run(hash);
+    const result = db.prepare(
+      "UPDATE users SET password_hash=? WHERE email=?"
+    ).run(hash, ADMIN_EMAIL);
 
-    res.json({ success: true, message: "Admin password updated" });
+    res.json({
+      success: true,
+      updatedRows: result.changes
+    });
 
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -80,10 +87,8 @@ app.get('/api/debug/reseed-tasks', async (req, res) => {
   try {
     const seed = require('./seed');
 
-    // Temporarily disable foreign key checks
     db.prepare("PRAGMA foreign_keys = OFF").run();
 
-    // Clear dependent tables first (if exist)
     const tables = db.prepare(
       "SELECT name FROM sqlite_master WHERE type='table'"
     ).all().map(t => t.name);
@@ -100,17 +105,12 @@ app.get('/api/debug/reseed-tasks', async (req, res) => {
       db.prepare("DELETE FROM user_tasks").run();
     }
 
-    // Clear tasks
     db.prepare("DELETE FROM tasks").run();
-
-    // Re-enable foreign key checks
     db.prepare("PRAGMA foreign_keys = ON").run();
 
-    // Run seed
     await seed();
 
     const total = db.prepare("SELECT COUNT(*) as count FROM tasks").get();
-
     res.json({ success: true, total: total.count });
 
   } catch (err) {
