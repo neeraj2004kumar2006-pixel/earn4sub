@@ -96,14 +96,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Demo credentials */}
-          <div className="mt-4 p-3 bg-purple-50 rounded-xl text-xs text-purple-700 space-y-1">
-            <p className="font-semibold">Demo Credentials:</p>
-            <p>User: demo@sub4earn.com / demo123</p>
-            <p>Admin: admin@sub4earn.com / admin123</p>
-          </div>
-        </div>
-
         <p className="text-center text-sm text-gray-500 mt-5">
           Don't have an account?{' '}
           <Link to="/signup" className="text-purple-600 font-semibold hover:underline">Create one free</Link>
