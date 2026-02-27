@@ -63,7 +63,7 @@ export default function WithdrawPage() {
       <div className="card bg-gradient-to-r from-purple-600 to-violet-600 text-white mb-5">
         <p className="text-sm opacity-80">Available Balance</p>
         <p className="text-4xl font-extrabold mt-1">₹{(data?.wallet_balance || 0).toFixed(2)}</p>
-        <p className="text-xs opacity-70 mt-2">Min. withdrawal: ₹{data?.min_withdrawal || 50}</p>
+        <p className="text-xs opacity-70 mt-2">Min. withdrawal: ₹{data?.min_withdrawal || 149}</p>
       </div>
 
       {/* KYC lock */}
@@ -96,10 +96,10 @@ export default function WithdrawPage() {
               <input
                 className="input"
                 type="number"
-                min={data?.min_withdrawal || 50}
+                min={data?.min_withdrawal || 149}
                 max={data?.wallet_balance || 0}
                 step="1"
-                placeholder={`Min ₹${data?.min_withdrawal || 50}`}
+                placeholder={`Min ₹${data?.min_withdrawal || 149}`}
                 value={form.amount}
                 onChange={e => setForm({ ...form, amount: e.target.value })}
               />
@@ -114,7 +114,7 @@ export default function WithdrawPage() {
                 onChange={e => setForm({ ...form, upi_id: e.target.value })}
               />
             </div>
-            <button type="submit" disabled={submitting || !data?.wallet_balance || data.wallet_balance < (data?.min_withdrawal || 50)} className="btn-primary w-full flex items-center justify-center gap-2">
+            <button type="submit" disabled={submitting || !data?.wallet_balance || data.wallet_balance < (data?.min_withdrawal || 149)} className="btn-primary w-full flex items-center justify-center gap-2">
               {submitting ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><ArrowDownToLine size={16} /> Request Withdrawal</>}
             </button>
           </form>
