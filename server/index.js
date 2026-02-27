@@ -47,6 +47,18 @@ app.use('/api/admin',    require('./routes/admin'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Sub4Earn API' });
 });
+/* ───────────────────────── DEBUG: ADMIN CHECK ───────────────────────── */
+app.get("/api/debug/admin-check", (req, res) => {
+  try {
+    const admins = db.prepare(
+      "SELECT id, email, role FROM users WHERE role='admin'"
+    ).all();
+
+    res.json({ count: admins.length, admins });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /* ───────────────────────── UPDATE ADMIN PASSWORD (ONE TIME) ───────────────────────── */
 app.get("/api/debug/update-admin-password", async (req, res) => {
