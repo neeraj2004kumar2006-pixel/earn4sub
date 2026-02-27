@@ -35,7 +35,7 @@ export default function Dashboard() {
       api.get('/tasks/my'),
     ]).then(([profileRes, tasksRes]) => {
       setStats(profileRes.data.user);
-      setTasks(tasksRes.data.tasks.slice(0, 3));
+      setTasks(tasksRes.data.tasks);
     }).catch(() => {
       toast.error('Failed to load dashboard');
     }).finally(() => setLoading(false));
