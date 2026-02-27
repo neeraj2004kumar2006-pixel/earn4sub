@@ -2,20 +2,25 @@
 
 const db = require("../database");
 
-// Auto approve task after 120 seconds (2 minutes)
-function autoApproveTask(taskId) {
-  setTimeout(async () => {
+// Ye function server start hote hi chalega
+function startAutoApprovalJob() {
+  console.log("Auto approval system started");
+
+  // Har 30 second me check karega pending tasks
+  setInterval(async () => {
     try {
       await db.query(
-        "UPDATE tasks SET status = ? WHERE id = ? AND status = ?",
-        ["approved", taskId, "pending"]
+        `UPDATE tasks 
+         SET status = 'approved' 
+         WHERE status = 'pending' 
+         AND created_at <= NOW() - INTERVAL 1200 SECOND`
       );
 
-      console.log(`Task ${taskId} auto-approved after 120 seconds`);
+      console.log("Checked and auto-approved eligible tasks");
     } catch (error) {
-      console.error("Auto approval failed:", error);
+      console.error("Auto approval error:", error);
     }
-  }, 1200000); // 120000 ms = 120 seconds
+  }, 30000); // 30 seconds me check karega
 }
 
-module.exports = autoApproveTask;
+module.exports = { startAutoApprovalJob };
