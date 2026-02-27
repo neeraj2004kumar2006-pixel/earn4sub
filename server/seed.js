@@ -109,4 +109,4 @@ async function seed() {
   console.log('  Demo User: demo@sub4earn.com / demo123\n');
 }
 
-seed().catch(console.error);
+module.exports = seed;
