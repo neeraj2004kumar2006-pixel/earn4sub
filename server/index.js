@@ -1,5 +1,11 @@
 // index.js - Sub4Earn Express server entry point
+const db = require('./database');
 
+const total = db.prepare("SELECT COUNT(*) as c FROM tasks").get();
+const active = db.prepare("SELECT COUNT(*) as c FROM tasks WHERE active = 1").get();
+
+console.log("TOTAL TASKS:", total.c);
+console.log("ACTIVE TASKS:", active.c);
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
